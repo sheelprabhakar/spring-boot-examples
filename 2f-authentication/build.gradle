@@ -11,15 +11,21 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter:2.5.3'
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.5.3'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.5.3'
-    implementation 'de.taimos:totp:1.0'
+    implementation 'org.springframework.boot:spring-boot-starter-validation:2.5.3'
 
+    implementation 'de.taimos:totp:1.0'
     implementation 'commons-codec:commons-codec:1.15'
     implementation 'com.google.zxing:core:3.4.1'
+    implementation 'com.google.zxing:javase:3.4.1'
+    implementation 'org.postgresql:postgresql:42.2.23'
+
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.5.3'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
+    testImplementation 'com.h2database:h2:1.4.200'
 }
 
 test {
