@@ -33,7 +33,7 @@ public class TotpServiceImpl implements TotpService {
 
     @Override
     public TotpResource addNew(TotpResource totpResource) {
-        if(getByEmailId(totpResource.getEmailId()) != null){
+        if(existByEmailId(totpResource.getEmailId())){
             throw new EntityExistsException();
         }
 
@@ -41,6 +41,11 @@ public class TotpServiceImpl implements TotpService {
         totpDO.setSecretKey(generateSecretKey());
         totpDO = this.toptRepository.save(totpDO);
         return toptDOToResource(totpDO);
+    }
+
+    @Override
+    public Boolean existByEmailId(final String emailId) {
+        return this.toptRepository.existsById(emailId);
     }
 
     @Override
@@ -97,7 +102,7 @@ public class TotpServiceImpl implements TotpService {
         TotpDO totpDO = new TotpDO();
         totpDO.setCompanyName(totpResource.getCompanyName());
         totpDO.setEmailId(totpResource.getEmailId());
-        totpDO.setCompanyName(totpResource.getCompanyName());
+        totpDO.setSecretKey(totpResource.getCode());
 
         return totpDO;
     }
@@ -106,7 +111,7 @@ public class TotpServiceImpl implements TotpService {
         TotpResource totpResource = new TotpResource();
         totpResource.setCompanyName(totpDo.getCompanyName());
         totpResource.setEmailId(totpDo.getEmailId());
-        totpResource.setCompanyName(totpDo.getCompanyName());
+        totpResource.setCode(totpDo.getSecretKey());
 
         return totpResource;
     }

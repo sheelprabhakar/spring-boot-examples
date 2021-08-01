@@ -5,12 +5,18 @@ import com.code4copy.example.rest.resource.TotpResource;
 import com.google.zxing.WriterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import java.net.URI;
 
+
 @RestController(value = "/")
+@Validated
 public class TotpController {
 
     private final TotpService totpService;
@@ -34,16 +40,16 @@ public class TotpController {
         return ResponseEntity.ok().body(totpResource);
     }
 
-    @GetMapping(value = "{emailId}", produces = "application/json")
-    public ResponseEntity<TotpResource> getById(@Valid @PathVariable("emailId") String emailId) {
+    @GetMapping( produces = "application/json")
+    public ResponseEntity<TotpResource> getById(@RequestParam("emailId") @Email @NotEmpty String emailId) {
         TotpResource totpResource = this.totpService.getById(emailId);
 
         return ResponseEntity.ok().body(totpResource);
     }
 
-    @GetMapping(value = "{emailId}/qrcode", produces = "application/json")
-    public ResponseEntity<String> getQrById(@Valid @PathVariable("emailId") String emailId,
-                                            @Valid @RequestParam("size") Integer size) throws WriterException {
+    @GetMapping(value = "/qrcode", produces = "application/json")
+    public ResponseEntity<String> getQrById(@RequestParam("emailId")  @Email @NotEmpty String emailId,
+                                            @RequestParam("size") @Min(200) Integer size) throws WriterException {
         String qrCode = this.totpService.getQrById(emailId, size);
         return ResponseEntity.ok().body(qrCode);
     }

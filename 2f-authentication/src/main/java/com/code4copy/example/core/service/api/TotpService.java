@@ -7,6 +7,8 @@ import com.google.zxing.WriterException;
 public interface TotpService {
     TotpResource addNew(TotpResource totpResource);
 
+    Boolean existByEmailId(String emailId);
+
     TotpDO getByEmailId(String emailId);
 
     TotpResource update(TotpResource totpResource);

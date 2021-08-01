@@ -1,10 +1,12 @@
 package com.code4copy.example.rest.resource;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 public class TotpResource {
 
     @NotBlank
+    @Email
     private String emailId;
     private String companyName;
     private String code;

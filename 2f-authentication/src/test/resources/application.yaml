@@ -1,13 +1,17 @@
 spring:
   datasource:
     url: jdbc:h2:mem:testdb
-    driverClassName: org:h2:Driver
-    username: a
+    username: sa
     password:
-  jpa:
+    platform: h2
+
+    jpa:
     show-sql: true
     properties:
       hibernate:
         dialect: org:hibernate:dialect:H2Dialect
     hibernate:
       ddl-auto: update
+
+code4copy:
+  trace: true
