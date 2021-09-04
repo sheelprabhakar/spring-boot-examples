@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id "com.github.spotbugs" version "4.7.3"
+    id "org.springframework.boot" version "2.5.4"
 }
 
 group 'com.code4copy.example.2fauthentication'
@@ -11,10 +12,10 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter:2.5.3'
-    implementation 'org.springframework.boot:spring-boot-starter-web:2.5.3'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.5.3'
-    implementation 'org.springframework.boot:spring-boot-starter-validation:2.5.3'
+    implementation 'org.springframework.boot:spring-boot-starter:2.5.4'
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.5.4'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.5.4'
+    implementation 'org.springframework.boot:spring-boot-starter-validation:2.5.4'
 
     implementation 'de.taimos:totp:1.0'
     implementation 'commons-codec:commons-codec:1.15'
@@ -30,7 +31,14 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
     testRuntimeOnly 'com.h2database:h2:1.4.200'
 }
-
+jar {
+    enabled = false
+}
+bootJar {
+    manifest {
+        attributes 'Start-Class': 'com.code4copy.example.F2Application'
+    }
+}
 test {
     useJUnitPlatform()
 }
