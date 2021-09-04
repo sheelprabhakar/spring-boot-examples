@@ -20,7 +20,6 @@ import java.net.URI;
 @RestController(value = "/")
 @Validated
 public class TotpController {
-
     private final TotpService totpService;
 
     @Autowired
