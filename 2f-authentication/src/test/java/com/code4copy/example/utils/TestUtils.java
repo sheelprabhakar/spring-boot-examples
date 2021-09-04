@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 
 public class TestUtils {
-    private static ObjectMapper mapper_ = new ObjectMapper();
+    private static final ObjectMapper mapper_ = new ObjectMapper();
 
     public static <T> T convertJsonStringToObject(final String jsonStr,
                                                   final Class<T> classType) throws IOException {

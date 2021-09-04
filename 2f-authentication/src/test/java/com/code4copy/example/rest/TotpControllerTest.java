@@ -41,8 +41,6 @@ public class TotpControllerTest extends AbstractIntegrationTest{
                 .andExpect(status().isBadRequest());
     }
 
-
-
     @Test
     public void test_add_new_totp_config_created() throws Exception {
         TotpResource res =  getTotpResource("ssp@sss.com");
