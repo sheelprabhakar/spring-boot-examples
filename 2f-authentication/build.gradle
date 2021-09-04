@@ -1,0 +1,49 @@
+plugins {
+    id 'java'
+    id "com.github.spotbugs" version "4.7.3"
+}
+
+group 'com.code4copy.example.2fauthentication'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter:2.5.3'
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.5.3'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.5.3'
+    implementation 'org.springframework.boot:spring-boot-starter-validation:2.5.3'
+
+    implementation 'de.taimos:totp:1.0'
+    implementation 'commons-codec:commons-codec:1.15'
+    implementation 'com.google.zxing:core:3.4.1'
+    implementation 'com.google.zxing:javase:3.4.1'
+    implementation 'org.postgresql:postgresql:42.2.23'
+
+    implementation 'io.springfox:springfox-boot-starter:3.0.0'
+    implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.5.3'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
+    testRuntimeOnly 'com.h2database:h2:1.4.200'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+spotbugs {
+    effort = "max"
+    reportLevel = "low"
+    excludeFilter= file("spotbugs-exclude.xml")
+}
+
+tasks.withType(com.github.spotbugs.snom.SpotBugsTask){
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
