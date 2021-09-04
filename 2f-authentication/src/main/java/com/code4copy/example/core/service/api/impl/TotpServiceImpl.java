@@ -9,6 +9,7 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
+import org.apache.commons.codec.Charsets;
 import org.apache.commons.codec.binary.Base32;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ import java.security.SecureRandom;
 @Service
 public class TotpServiceImpl implements TotpService {
     private final  ToptRepository toptRepository;
+    private final SecureRandom random = new SecureRandom();
     @Autowired
     public TotpServiceImpl(final  ToptRepository toptRepository){
         this.toptRepository = toptRepository;
@@ -91,7 +93,7 @@ public class TotpServiceImpl implements TotpService {
             try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
                 MatrixToImageWriter.writeToStream(matrix, "png", out);
                 byte[] encoded = Base64Utils.encode(out.toByteArray());
-                data = new String(encoded);
+                data = new String(encoded, Charsets.toCharset("UTF-8"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -116,10 +118,10 @@ public class TotpServiceImpl implements TotpService {
         return totpResource;
     }
 
-    private static String generateSecretKey() {
-        SecureRandom random = new SecureRandom();
+    private  String generateSecretKey() {
+
         byte[] bytes = new byte[20];
-        random.nextBytes(bytes);
+        this.random.nextBytes(bytes);
         Base32 base32 = new Base32();
         return base32.encodeToString(bytes);
     }

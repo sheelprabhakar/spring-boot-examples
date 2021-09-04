@@ -10,7 +10,6 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
-
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -22,7 +21,7 @@ import javax.validation.constraints.NotNull;
 
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
-    Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+    Logger logger_ = LoggerFactory.getLogger(GlobalExceptionHandler.class);
     @Value("${code4copy.trace:false}")
     private boolean printStackTrace;
 
@@ -70,13 +69,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    @Nullable
+    @NotNull
     public ResponseEntity<Object> handleExceptionInternal(
-           Exception ex,
+            @NotNull Exception ex,
             @Nullable Object body,
             HttpHeaders headers,
-            HttpStatus status,
-            WebRequest request) {
+            @NotNull HttpStatus status,
+            @NotNull WebRequest request) {
         if(printStackTrace){
             ex.printStackTrace();
         }

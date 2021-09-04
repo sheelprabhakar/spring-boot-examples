@@ -22,8 +22,8 @@ public class TotpController {
     private final TotpService totpService;
 
     @Autowired
-    public  TotpController(final TotpService totpService){
-        this.totpService = totpService;
+    public  TotpController(final TotpService pTotpService){
+        this.totpService = pTotpService;
     }
 
     @PostMapping( consumes = "application/json", produces = "application/json")
