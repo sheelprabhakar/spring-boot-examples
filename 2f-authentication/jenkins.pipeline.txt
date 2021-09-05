@@ -1,9 +1,21 @@
 node {
-    def mvnHome
+
+    def currentBuild = currentBuild.number
+    echo "Current build number :${currentBuild}"
+
     stage('Preparation') { // for display purposes
         // Get some code from a GitHub repository
         git branch: 'dev', credentialsId: 'd5a192b5-51a4-46ee-9eb7-dcf59ab31efa', url: 'https://github.com/sheelprabhakar/spring-boot-examples'
     }
+
+    def version = ""
+    dir('2f-authentication') {
+        version = readFile "version.txt"
+    }
+    version = version.replace("build", "${currentBuild}")
+    echo "Current version of build is :${version}"
+
+
     stage('Gradle Build') {
         dir('2f-authentication') {
             sh 'chmod +x ./gradlew'
@@ -20,7 +32,7 @@ node {
         def REGISTRY_URL = "https://index.docker.io/v1/"
          script {
             withDockerRegistry(credentialsId: 'dockerhub_sheelpra', url: "${REGISTRY_URL}") {
-                docker.image('sheelprabhakar/springboot').push('latest');
+                docker.image('sheelprabhakar/springboot').push("${version}");
             }
          }
     }

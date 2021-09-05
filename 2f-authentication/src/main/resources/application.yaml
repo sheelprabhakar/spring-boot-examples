@@ -12,3 +12,5 @@ spring:
       ddl-auto: update
 code4copy:
   trace: false
+server:
+  port: 80
