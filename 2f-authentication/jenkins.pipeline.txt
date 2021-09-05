@@ -1,0 +1,27 @@
+node {
+    def mvnHome
+    stage('Preparation') { // for display purposes
+        // Get some code from a GitHub repository
+        git branch: 'dev', credentialsId: 'd5a192b5-51a4-46ee-9eb7-dcf59ab31efa', url: 'https://github.com/sheelprabhakar/spring-boot-examples'
+    }
+    stage('Gradle Build') {
+        dir('2f-authentication') {
+            sh 'chmod +x ./gradlew'
+            sh './gradlew build'
+        }
+    }
+    stage('Docker Build') {
+        script {
+            docker.build('sheelprabhakar/springboot','./2f-authentication')
+        }
+    }
+
+    stage('Docker Push') {
+        def REGISTRY_URL = "https://index.docker.io/v1/"
+         script {
+            withDockerRegistry(credentialsId: 'dockerhub_sheelpra', url: "${REGISTRY_URL}") {
+                docker.image('sheelprabhakar/springboot').push('latest');
+            }
+         }
+    }
+}
