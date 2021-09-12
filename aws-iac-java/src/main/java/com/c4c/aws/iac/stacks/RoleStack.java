@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RoleStack extends Stack {
+    private final Role role;
     public RoleStack(final Construct parent, final String id) {
 
         this(parent, id, null);
@@ -20,12 +21,13 @@ public class RoleStack extends Stack {
         @NotNull IManagedPolicy iManagedPolicy = ManagedPolicy.fromManagedPolicyArn(this, "c4c-AmazonEKSClusterPolicy", "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy");
         policies.add(iManagedPolicy);
 
-        Role role = Role.Builder.create(this, id)
+        this.role = Role.Builder.create(this, id)
                 .assumedBy(new ServicePrincipal("eks.amazonaws.com"))
                 .description("Role to manage EKS cluster")
-                .roleName("c4c-eks--cluster-mgmt-role")
+                .roleName("C4C-EKS-ROLE")
                 .managedPolicies(policies)
                 .build();
 
     }
+
 }
