@@ -16,4 +16,4 @@ id -nG
 sudo usermod -aG docker username
 curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/
 minikube version
-minikube start --vm-driver=docker
+sudo minikube start --vm-driver=docker

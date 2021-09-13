@@ -80,7 +80,7 @@ public class Ec2Stack extends Stack {
         @NotNull IMachineImage machineImage = MachineImage.genericLinux(imageMap);
         Instance instance = Instance.Builder.create(this, id).instanceName("C4C-EC2-MINIKUBE")
                 .vpc(vpc)
-                .instanceType(new InstanceType("t2.small"))
+                .instanceType(new InstanceType("t2.medium"))
                 .keyName("c4c-key-pair")
                 .securityGroup(securityGroup)
                 .machineImage(machineImage)
