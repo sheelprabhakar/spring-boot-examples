@@ -1,0 +1,31 @@
+plugins {
+    id 'java-library'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '7.0.0'
+}
+var cdkVer = '1.122.0'
+var mainClassName = 'com.c4c.aws.ec2.iac.Program'
+group 'com.c4c.aws.ec2.iac'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'software.amazon.awscdk:core:' + cdkVer
+    implementation 'software.amazon.awscdk:iam:'+ cdkVer
+    implementation 'software.amazon.awscdk:ec2:'+ cdkVer
+    implementation 'software.amazon.awscdk:ecr:'+ cdkVer
+
+    implementation 'commons-io:commons-io:2.11.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
+}
+
+application {
+    mainClass.set(mainClassName)
+}
+test {
+    useJUnitPlatform()
+}
