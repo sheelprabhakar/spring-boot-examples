@@ -1,16 +1,19 @@
 package com.code4copy.rabbitmqexample.config;
 
-import com.code4copy.rabbitmqexample.core.service.listener.MessageListener;
-import org.springframework.amqp.core.*;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
-import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 public class RabbitConfig {
@@ -30,13 +33,17 @@ public class RabbitConfig {
     @Bean(name = "queue1")
     Queue queue1(){
         // Durable false, not survive server restart
-        return new Queue(queue1, false);
+        // Exclusive connection true
+        // Auto delete true
+        return new Queue(queue1, false, true, true);
     }
 
     @Bean(name = "queue2")
     Queue queue2(){
         // Durable false, not survive server restart
-        return new Queue(queue2, false);
+        Map<String, Object> arguments = new HashMap<String, Object>();
+        arguments.put("x-single-active-consumer", true);
+        return new Queue(queue2, false, false, false, arguments);
     }
 
     // Create exchange base on topic
@@ -70,12 +77,10 @@ public class RabbitConfig {
         rabbitTemplate.setMessageConverter(producerJackson2MessageConverter());
         return rabbitTemplate;
     }
-
     @Bean
     public Jackson2JsonMessageConverter producerJackson2MessageConverter() {
         return new Jackson2JsonMessageConverter();
     }
-
     // Below two method are used to configure listener using code with default serializer
     // This can be done using @RabbitListener annotation also
     /*@Bean
@@ -87,11 +92,9 @@ public class RabbitConfig {
         container.setMessageListener(listenerAdapter);
         return container;
     }
-
     @Bean
     MessageListenerAdapter listenerAdapter(MessageListener receiver) {
         // bean and listener method name
         return new MessageListenerAdapter(receiver, "receiveMessage");
     }*/
-
 }

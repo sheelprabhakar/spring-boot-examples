@@ -28,8 +28,16 @@ public class MessageSender {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    @Scheduled(fixedDelay = 2000L)
-    public void sendMessage() {
+    @Scheduled(fixedDelay = 1000L)
+    public void sendMessage1() {
+        final MessageLoad message = new MessageLoad(String.valueOf(++id),
+                "Message at time " + LocalTime.now().toString());
+        LOG.info("Sending message...");
+        rabbitTemplate.convertAndSend(exchange, routingKey, message);
+    }
+
+    @Scheduled(fixedDelay = 1000L)
+    public void sendMessage2() {
         final MessageLoad message = new MessageLoad(String.valueOf(++id),
                 "Message at time " + LocalTime.now().toString());
         LOG.info("Sending message...");
