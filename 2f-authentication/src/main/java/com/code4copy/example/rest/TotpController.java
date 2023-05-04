@@ -1,11 +1,14 @@
 package com.code4copy.example.rest;
 
+import com.beust.jcommander.Strings;
+import com.beust.jcommander.internal.Lists;
 import com.code4copy.example.core.service.api.TotpService;
 import com.code4copy.example.rest.resource.TotpResource;
 import com.google.zxing.WriterException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
@@ -16,6 +19,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import java.net.URI;
+import java.util.Arrays;
 
 @Api(value="Register email for 2F authentication using TOTP")
 @Controller
@@ -31,7 +35,10 @@ public class TotpController {
 
     @ApiOperation(value = "Add new email and company for 2F authentication",response = TotpResource.class)
     @PostMapping(consumes = "application/json", produces = "application/json")
-    public ResponseEntity<TotpResource> addNew(@Valid @RequestBody TotpResource totpResource) {
+    public ResponseEntity<?> addNew(@Valid @RequestBody TotpResource totpResource) {
+        if(Strings.isStringEmpty(totpResource.getEmailId()){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Arrays.asList(new String[]{"err1, err2"}));
+        }
         totpResource = this.totpService.addNew(totpResource);
 
         return ResponseEntity.created(URI.create("/" + totpResource.getEmailId())).body(totpResource);
