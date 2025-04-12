@@ -1,0 +1,23 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: spring-boot-camel-kubernetes
+
+camel:
+  context:
+    auto-startup: true
+
+logging:
+  level:
+    org.apache.camel: DEBUG
+
+kubernetes:
+  namespace: default
+  service:
+    name: spring-boot-camel-service
+    type: ClusterIP
+    port: 8080
+
+# Additional configurations can be added as needed.
