@@ -1,5 +1,6 @@
 package com.c4c.camel.config;
 
+import com.c4c.camel.routes.SampleRoute;
 import org.apache.camel.CamelContext;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
@@ -19,11 +20,6 @@ public class CamelConfig {
 
     @Bean
     public RouteBuilder sampleRoute() {
-        return new RouteBuilder() {
-            @Override
-            public void configure() {
-                // Define your routes here
-            }
-        };
+        return new SampleRoute();
     }
 }

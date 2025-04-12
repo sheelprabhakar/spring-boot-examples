@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-boot-camel-kubernetes
+  labels:
+    app: spring-boot-camel-kubernetes
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: spring-boot-camel-kubernetes
+  template:
+    metadata:
+      labels:
+        app: spring-boot-camel-kubernetes
+    spec:
+      containers:
+      - name: spring-boot-camel-kubernetes
+        image: your-docker-image:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: "prod"
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
