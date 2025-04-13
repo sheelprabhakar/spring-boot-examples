@@ -3,7 +3,7 @@ kind: Integration
 metadata:
   annotations:
     camel.apache.org/operator.id: camel-k
-  name: test
+  name: test1
 spec:
   flows:
     - from:
