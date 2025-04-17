@@ -1,0 +1,7 @@
+- route:
+    id: hello-world-route
+    from:
+      uri: timer:hello?period=1000
+    steps:
+      - log:
+          message: "Hello, World!"

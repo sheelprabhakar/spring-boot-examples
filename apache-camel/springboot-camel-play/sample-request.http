@@ -1,0 +1,53 @@
+### ✅ Create new hello world logger
+POST http://localhost:8080/routes
+Content-Type: application/json
+
+{
+  "id": "myDynamicRoute",
+  "message": "Hello from dynamically created route!"
+}
+
+### 🔄 Update and reload route
+PUT http://localhost:8080/routes/myDynamicRoute/reload
+Content-Type: application/json
+
+{
+  "message": "Updated message for reloaded route!"
+}
+
+### 🌐 URL Fetcher
+POST http://localhost:8080/routes/http
+Content-Type: application/json
+
+{
+  "id": "fetchFromGoogle",
+  "url": "https://www.google.com"
+}
+
+### 📜 List all routes
+GET http://localhost:8080/routes
+Accept: application/json
+
+### 🐫 Load YAML route dynamically
+POST http://localhost:8080/routes/yaml
+Content-Type: text/plain
+
+- route:
+    id: myYamlRoute
+    from:
+      uri: "timer:yaml?period=3000"
+      steps:
+        - log:
+            message: "🚀 Hello from dynamic YAML!"
+
+### Deploy Java route dynamically
+POST http://localhost:8080/routes/java
+Content-Type: application/json
+
+{
+  "className": "com.example.camelplay.routes.HttpLogRouteBuilder",
+  "params": {
+    "routeId": "googleFetcher",
+    "url": "https://www.google.com"
+  }
+}
