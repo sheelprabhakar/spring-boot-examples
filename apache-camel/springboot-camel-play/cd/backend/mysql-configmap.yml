@@ -15,3 +15,22 @@ data:
   init.sql: |
     use mysql;
     UPDATE user SET Host="%" WHERE User='app_user';
+    
+    DELIMITER $$
+    CREATE PROCEDURE create_tenant_schemas()
+    BEGIN
+      DECLARE i INT DEFAULT 1;
+      DECLARE schema_name VARCHAR(255);
+      WHILE i <= 100 DO
+        SET schema_name = CONCAT('tenant', i);
+        SET @query = CONCAT('CREATE SCHEMA IF NOT EXISTS ', schema_name, ';');
+        PREPARE stmt FROM @query;
+        EXECUTE stmt;
+        DEALLOCATE PREPARE stmt;
+        SET i = i + 1;
+      END WHILE;
+    END$$
+    DELIMITER ;
+
+    CALL create_tenant_schemas();
+    DROP PROCEDURE IF EXISTS create_tenant_schemas;

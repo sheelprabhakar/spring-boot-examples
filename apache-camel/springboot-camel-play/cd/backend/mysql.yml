@@ -40,8 +40,6 @@ spec:
             - name: mysqldir
               mountPath: /var/lib/mysql
             - name: mysql-config-volume
-              mountPath: /docker-entrypoint-initdb.d/
-            - name: mysql-config-volume
               mountPath: /docker-entrypoint-initdb.d/init.sql
               subPath: init.sql
             #- name: mysql-config-volume ## specify volume name
