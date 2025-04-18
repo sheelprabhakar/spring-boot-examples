@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: redis-namespace
+  name: rabbit-namespace
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: rabbitmq
-  namespace: redis-namespace
+  namespace: rabbit-namespace
 spec:
   type: NodePort
   ports:
@@ -28,7 +28,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: rabbitmq
-  namespace: redis-namespace
+  namespace: rabbit-namespace
 spec:
   replicas: 1
   selector:

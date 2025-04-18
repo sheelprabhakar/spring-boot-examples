@@ -1,8 +1,14 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: mysql-namespace
+---
+
 # config-map.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: springboot-example
+  namespace: mysql-namespace
   ## name of ConfigMap. This will be referred from volume definition
   name: mysql-config
   labels:

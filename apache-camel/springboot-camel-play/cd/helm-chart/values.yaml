@@ -1,0 +1,29 @@
+tenants:
+  - tenant1
+  - tenant2
+  - tenant3
+  - tenant4
+  - tenant5
+  - tenant6
+  - tenant7
+  - tenant8
+  - tenant9
+  - tenant10
+
+image:
+  repository: host.docker.internal:5000/springboot-camel-play
+  tag: latest
+
+resources:
+  requests:
+    memory: "256Mi"
+    cpu: "250m"
+  limits:
+    memory: "512Mi"
+    cpu: "500m"
+
+mysql:
+  host: mysql
+  port: 3306
+  username: app_user
+  password: Password$4
