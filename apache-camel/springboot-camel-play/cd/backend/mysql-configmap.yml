@@ -21,7 +21,7 @@ data:
     BEGIN
       DECLARE i INT DEFAULT 1;
       DECLARE schema_name VARCHAR(255);
-      WHILE i <= 100 DO
+      WHILE i <= 10 DO
         SET schema_name = CONCAT('tenant', i);
         SET @query = CONCAT('CREATE SCHEMA IF NOT EXISTS ', schema_name, ';');
         PREPARE stmt FROM @query;
