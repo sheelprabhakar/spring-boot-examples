@@ -1,0 +1,16 @@
+- from:
+    uri: "file:/input?noop=true"
+    steps:
+      - log:
+          message: "Processing file: ${header.CamelFileName}"
+      - convertBodyTo:
+          type: "java.lang.String"
+      - log:
+          message: "File content: ${body}"
+      - setHeader:
+          name: "Content-Type"
+          constant: "application/json"
+      - to:
+          uri: "http://api-proc:8080/api/process"
+      - log:
+          message: "File sent to REST API successfully."

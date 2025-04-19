@@ -1,0 +1,22 @@
+deploy local registry using docker-compose.yml
+$ helm repo add camel-k https://apache.github.io/camel-k/charts/
+$ helm install camel-k camel-k/camel-k -n camel-k --create-namespace
+
+https://camel.apache.org/camel-k/2.6.x/installation/installation.html
+
+helm repo add camel-karavan https://apache.github.io/camel-karavan-helm
+helm repo update
+
+helm install karavan camel-karavan/karavan --namespace camel-k
+
+kubectl apply -f itp.yaml -n camel-k
+kubectl config set-context --current --namespace=camel-k
+
+kubectl set env deployment/camel-k-operator WATCH_NAMESPACE=camel-k, camel-k1, camel-k2
+
+kubectl wait --for jsonpath='{.status.phase}'=Ready IntegrationPlatform camel-k -n camel-k --timeout 30s
+kubectl apply -f .\hello-world.yml -n camel-k
+kubectl logs -l camel.apache.org/integration=test
+kubectl describe integration test
+
+

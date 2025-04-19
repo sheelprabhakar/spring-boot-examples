@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: camel-karavan
+  labels:
+    app: camel-karavan
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: camel-karavan
+  template:
+    metadata:
+      labels:
+        app: camel-karavan
+    spec:
+      containers:
+      - name: camel-karavan
+        image: ghcr.io/apache/camel-karavan:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: KAMELEON
+          value: "true" # Enable Camel K integration
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "250m"
+          requests:
+            memory: "128Mi"
+            cpu: "125m"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: camel-karavan
+  labels:
+    app: camel-karavan
+spec:
+  selector:
+    app: camel-karavan
+  ports:
+  - protocol: TCP
+    port: 8081
+    targetPort: 8080
+  type: LoadBalancer
